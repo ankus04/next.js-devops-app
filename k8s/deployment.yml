@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: nextjs-app-container
-        image: ankus04/nextjs-app
+        image: ghcr.io/ankus04/next.js-devops-app:latest
         ports:
         - containerPort: 3000
