@@ -34,24 +34,24 @@
 
    🧰 Prerequisites
 
-      -- Node.js
+    -- Node.js
 
    🧱 Setup Instructions
 
-      -- Clone the repository:
+   -- Clone the repository:
 
          git clone https://github.com/ankus04/next.js-devops-app.git
          cd nextjs-devops-app
 
-      -- Install dependencies:
+   -- Install dependencies:
 
          npm install
 
-      -- Run locally:
+   -- Run locally:
 
          npm run dev
 
-      -- Visit http://localhost:3000
+   -- Visit http://localhost:3000
 
 
 ## 🐳 Docker Instructions
