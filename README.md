@@ -1,5 +1,19 @@
 # 🚀 Next.js-app DevOps Deployment with Docker, GitHub Actions, Kubernetes(Minikube or Kind)
 
+🧰 Prerequisites for this project
+   
+   - Node.js (v18+)
+   
+   - Docker
+
+   - GitHub account
+
+   - kubectl
+
+   - minikube or kind
+
+   - GitHub CLI
+
 ## 📦 Project Structure
 
      nextjs-devops-app/
