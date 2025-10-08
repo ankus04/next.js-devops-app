@@ -68,62 +68,62 @@
 
 ## ⚙️ GitHub Actions CI/CD
 
-     Workflow: `.github/workflows/docker-ghcr.yml`
+    Workflow: `.github/workflows/docker-ghcr.yml`
 
-      -- Triggers on push to `main`
+    -- Triggers on push to `main`
 
-      -- Builds Docker image
+    -- Builds Docker image
 
-      -- Tags it as `ghcr.io/ankus04/next.js-devops-app:latest`
+    -- Tags it as `ghcr.io/ankus04/next.js-devops-app:latest`
 
-      -- Pushes to GitHub Container Registry
+    -- Pushes to GitHub Container Registry
 
 ## ☸️ Kubernetes Deployment (Minikube)
 
-      -- install kubectl
+    -- install kubectl
 
-      -- install minikube
+    -- install minikube
 
-      -- Start Minikube
+    -- Start Minikube
 
-      -- Apply Kubernetes Manifests
+    -- Apply Kubernetes Manifests
          
          kubectl apply -f k8s/namespace.yml
          kubectl apply -f k8s/deployment.yaml
          kubectl apply -f k8s/service.yaml
 
-      -- Verify Deployment
+    -- Verify Deployment
 
          kubectl get pods -n next.js-app
          kubectl get services -n next.js-app
 
-      -- Expose the service using Minikube:
+    -- Expose the service using Minikube:
 
          minikube service nextjs-app-service -n nextjs-app
    
    
 ## ☸️ Kubernetes Deployment (kind)
 
-     -- install kubectl
+    -- install kubectl
 
-     -- install kind
+    -- install kind
 
-     -- Create cluster
+    -- Create cluster
 
          kind create cluster
 
-      -- Apply Kubernetes Manifests
+    -- Apply Kubernetes Manifests
          
          kubectl apply -f k8s/namespace.yml
          kubectl apply -f k8s/deployment.yaml
          kubectl apply -f k8s/service.yaml
 
-      -- Verify Deployment
+    -- Verify Deployment
 
          kubectl get pods -n next.js-app
          kubectl get services -n next.js-app
 
-      -- Port forward:
+    -- Port forward:
 
          sudo -E kubectl port-forward service/nextjs-app-service -n nextjs-app 8080:8080 --address=0.0.0.0
    
