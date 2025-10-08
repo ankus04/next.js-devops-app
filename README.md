@@ -1,21 +1,20 @@
 # 🚀 Next.js-app DevOps Deployment with Docker, GitHub Actions, Kubernetes(Minikube or Kind)
 
-
 ## 📦 Project Structure
 
-nextjs-devops-app/
-  ├──.github/
-  |  └── workflows/
-  |    └── docker-ghcr.yml
-  |
-  ├── k8s/
-  |  └──namespace.yml
-  |  └── deployment.yaml
-  |  └── service.yaml
-  |
-  ├── src/app
-  ├── public
-  └── package.json
+     nextjs-devops-app/
+       ├──.github/
+       |  └── workflows/
+       |    └── docker-ghcr.yml
+       |
+       ├── k8s/
+       |  └──namespace.yml
+       |  └── deployment.yaml
+       |  └── service.yaml
+       |
+       ├── src/app
+       ├── public
+       └── package.json
 
 ## ⚙️ Local run
 
