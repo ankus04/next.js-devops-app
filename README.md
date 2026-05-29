@@ -1,4 +1,4 @@
-# 🚀 Next.js-app DevOps Deployment with Docker, GitHub Actions, Kubernetes(Minikube or Kind)
+## 🚀 Next.js-app DevOps Deployment with Docker, GitHub Actions, Kubernetes(Minikube or Kind) 
 
 🧰 Prerequisites for this project
    
