@@ -2,7 +2,7 @@ name: Build and Push to the GHCR
 
 on:
   push:
-    branches: [main]
+    branches: [stage]
 
 jobs:
   build-and-push:
