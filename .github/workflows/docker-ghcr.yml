@@ -1,4 +1,4 @@
-name: Build and Push to GHCR
+name: Build, Scan, and Push to GHCR
 
 on:
   push:
@@ -10,7 +10,7 @@ jobs:
     permissions:
       contents: read
       packages: write
-      security-events: write  # Required for SARIF upload to GitHub Security tab
+      security-events: write # Required for GitHub Code Scanning tab
 
     steps:
       - name: Checkout code
@@ -26,7 +26,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Step 1: Build and load image into Docker daemon for local scanning
+      # 1. Build and export the image into local Docker daemon
       - name: Build Docker image locally
         uses: docker/build-push-action@v5
         with:
@@ -34,7 +34,7 @@ jobs:
           load: true
           tags: ghcr.io/${{ github.repository }}:${{ github.sha }}
 
-      # Step 2: Generate SARIF report for GitHub Security Tab
+      # 2. Run Trivy and export results to SARIF
       - name: Run Trivy scanner (SARIF)
         uses: aquasecurity/trivy-action@master
         with:
@@ -43,14 +43,23 @@ jobs:
           output: 'trivy-results.sarif'
           severity: 'CRITICAL,HIGH'
 
-      # Step 3: Upload findings to GitHub Code Scanning Alerts
+      # 3. Upload SARIF report to GitHub Security Code Scanning tab
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
         if: always()
         with:
           sarif_file: 'trivy-results.sarif'
 
-      # Step 4: Quality Gate - Fail pipeline on CRITICAL fixes
+      # 4. Upload SARIF file as an artifact for direct zip download
+      - name: Archive SARIF report artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trivy-sarif-report
+          path: trivy-results.sarif
+          retention-days: 7
+
+      # 5. Pipeline Gate: Print table to console and break build on CRITICAL fixes
       - name: Gate on CRITICAL vulnerabilities
         uses: aquasecurity/trivy-action@master
         with:
@@ -60,7 +69,7 @@ jobs:
           ignore-unfixed: true
           severity: 'CRITICAL'
 
-      # Step 5: Push only after scans pass
+      # 6. Push to GHCR only if scanning passes
       - name: Push Docker image to GHCR
         uses: docker/build-push-action@v5
         with:
