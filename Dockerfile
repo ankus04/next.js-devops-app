@@ -1,21 +1,44 @@
-# Use official Node.js image
-FROM node:18-alpine AS builder
+# ----------------------------------------------------
+# Stage 1: Dependencies & Build
+# ----------------------------------------------------
+FROM node:22-alpine AS builder
 
 WORKDIR /app
 
+# Install dependencies needed for compilation
 COPY package*.json ./
-RUN npm install
+RUN npm ci
 
+# Copy source code and build
 COPY . .
 RUN npm run build
 
-# Production image
-FROM node:18-alpine
+# Prune devDependencies to keep only production packages
+RUN npm prune --production
+
+# ----------------------------------------------------
+# Stage 2: Minimal Production Runner
+# ----------------------------------------------------
+FROM node:22-alpine AS runner
 
 WORKDIR /app
 
-COPY --from=builder /app ./
 ENV NODE_ENV=production
 
+# Upgrade OS packages to the latest Alpine security patches
+RUN apk update && apk upgrade --no-cache
+
+# Run as non-root user for security best practices
+USER node
+
+# Copy only production dependencies and build artifacts
+COPY --chown=node:node --from=builder /app/package*.json ./
+COPY --chown=node:node --from=builder /app/node_modules ./node_modules
+COPY --chown=node:node --from=builder /app/public ./public
+# For Next.js: copy the build output (adjust path if not using Next.js)
+COPY --chown=node:node --from=builder /app/.next ./.next
+
 EXPOSE 3000
-CMD ["npm", "run", "dev"]
+
+# Run production server instead of dev server
+CMD ["npm", "start"]
